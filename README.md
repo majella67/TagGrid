@@ -23,9 +23,9 @@ Open a tag grid using the code below in a playground and inspect.
 aTGL :=TagGridListPub new 
 ```
 
-####Usage tips
+#### Usage tips
 Add a tag to an item by right clicking on an item 
 Right Click any item to add a tag
 
-####Known issues
+#### Known issues
 You cannot delete tags.
