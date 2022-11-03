@@ -4,6 +4,11 @@
 	
 	
 ### Installation 
+
+Download GlamorousToolkit here.
+
+Open a playground, copy the code below into and execute.
+
 ```language=text
 Metacello new
 	baseline: 'TagGrid';
