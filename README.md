@@ -16,7 +16,7 @@ Metacello new
 	load.
 ```
 
-Open a tag grid usingthe code below in a playground and inspect.
+Open a tag grid using the code below in a playground and inspect.
 
 ```Smalltalk
 aTGL :=TagGridListPub new 
