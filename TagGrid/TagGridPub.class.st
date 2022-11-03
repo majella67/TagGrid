@@ -740,13 +740,17 @@ TagGridPub >> stateTagSelector [
 							action: [ button1 label: aTag asRopedText.
 								button2 label: aTag asRopedText.
 								currentStatus := aTag.
-								selectedItem ifNotNil: [ self addStateTag: aTag to: selectedItem ]. self refreshGrid.
+								selectedItem
+									ifNotNil: [ self
+											addStateTag: aTag
+											to: (self items items detect: [ :i | i uid = (selectedItem userData at: #itemUuid) ]) ].
+								self refreshGrid.
 								aWithDropdownAptitude hide ] ];
 					items: self stateTags;
 					fitContent;
 					yourself ]
 			aptitudeDo: [ :aDropdownLook | aDropdownLook cornerRadius: 5 ].
-currentStatus := 'Not started'.
+	currentStatus := 'Not started'.
 	^ button1
 		aptitude: BrGlamorousButtonWithLabelAptitude + aWithDropdownAptitude;
 		yourself
