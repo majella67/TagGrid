@@ -23,5 +23,5 @@ Open a tag grid using the code below in a playground and inspect.
 aTGL :=TagGridListPub new 
 ```
 
-You can downlaod Tag Grid Ideas and Issues Demo Public.tgrid to play with.
+You can download Tag Grid Ideas and Issues Demo Public.tgrid to play with.
 Save the file to C:\Taggrids
