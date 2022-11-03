@@ -1,7 +1,9 @@
-####Introduction
+### Introduction
 	TagGrid can be used to enter text items and then tag them.  
 	You can display and inspect items by tags
-####Installation 
+	
+	
+### Installation 
 ```language=text
 Metacello new
 	baseline: 'TagGrid';
