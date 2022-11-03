@@ -1,7 +1,7 @@
 ### Introduction
 	TagGrid can be used to enter text items and then tag them.  
 	You can display and inspect items by tags
-	![image](https://user-images.githubusercontent.com/52683123/199646559-7ad5a9bd-4935-4c4e-b1a7-aa99e035fde5.png)
+	![image](taggrid.png)
 
 	
 ### Installation 
