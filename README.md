@@ -25,7 +25,7 @@ aTGL :=TagGridListPub new
 
 #### Usage tips
 - Add a tag to an item by right clicking on an item.
-- Right click any item to add a tag
+- Right click any item to add/edit a tag 
 
 #### Known issues
 You cannot delete tags.
