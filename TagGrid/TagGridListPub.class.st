@@ -10,16 +10,28 @@ Class {
 { #category : #accessing }
 TagGridListPub >> createCell: aTag as: aSymbol [
 	^ BrVerticalPane new
-		addChild: (BrVerticalPane new
+		addChild: (BrHorizontalPane new
 				border: (BlBorder paint: Color lightGray width: 1);
-				hMatchParent; vFitContent;
+				hMatchParent;
+				vFitContent;
 				alignCenter;
-				addChild: (BrLabel new aptitude: BrGlamorousLabelAptitude new bold;
+				addChild: (BrLabel new
+							aptitude: BrGlamorousLabelAptitude new bold;
 							text: aTag asRopedText;
 							margin: (BlInsets top: 2))
-					as: aSymbol);
-		addChild: (BrVerticalPane new addChild:((lists at: (tags indexOf: aTag)) margin: (BlInsets all: 3))
-			as: aSymbol , 'List';border: (BlBorder paint: Color lightGray width: 1);matchParent);matchParent
+					as: aSymbol;
+				addChild: (aSymbol = #fiveTag
+						ifFalse: [ self buildDisplayedTagsElement
+								padding: (BlInsets
+										top: 2;
+										bottom: 2) ]
+						ifTrue: [ BlElement new visibility: BlVisibility gone ]));
+		addChild: (BrVerticalPane new
+				addChild: ((lists at: (tags indexOf: aTag)) margin: (BlInsets all: 3))
+					as: aSymbol , 'List';
+				border: (BlBorder paint: Color lightGray width: 1);
+				matchParent);
+		matchParent
 ]
 
 { #category : #accessing }

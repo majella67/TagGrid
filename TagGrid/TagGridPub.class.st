@@ -10,7 +10,8 @@ Class {
 		'selectedItem',
 		'displayedTags',
 		'currentStatus',
-		'note'
+		'note',
+		'tagList'
 	],
 	#category : #TagGrid
 }
@@ -53,12 +54,12 @@ TagGridPub >> buildDisplayedTagsElement [
 	| button1 button2 aWithDropdownAptitude |
 	button1 := BrButton new
 			icon: BrGlamorousIcons threepanes;
-			aptitude: BrGlamorousButtonWithIconCircularAptitude;
+			aptitude: BrGlamorousButtonWithIconCircularAptitude;label: 'Change displayed tags';
 			margin: (BlInsets left: 5 right: 5).
 
 	button2 := BrButton new
 			icon: BrGlamorousIcons threepanes;
-			aptitude: BrGlamorousButtonWithIconCircularAptitude;
+			aptitude: BrGlamorousButtonWithIconCircularAptitude ; label: 'Change displayed tags';
 			margin: (BlInsets left: 5 right: 5).
 	aWithDropdownAptitude := BrGlamorousWithDropdownAptitude
 			handle: [ button2 ]
@@ -153,7 +154,7 @@ TagGridPub >> buildInspectTagsButton [
 
 { #category : #accessing }
 TagGridPub >> buildInspectTagsElement [
-	| tagList iTagList |
+	| iTagList |
 	iTagList := OrderedCollection new.
 	^ BrVerticalPane new
 		exact: 150 @ 150;
@@ -182,7 +183,7 @@ TagGridPub >> buildInspectTagsElement [
 										margin: (BlInsets right: 5).
 									aTagEditor} ]);
 		addChild: (BrButton new
-				aptitude: BrGlamorousButtonWithLabelAptitude; 
+				aptitude: BrGlamorousButtonWithLabelAptitude;
 				margin: (BlInsets all: 5);
 				label: 'Inspect';
 				action: [ self phlow
@@ -194,7 +195,7 @@ TagGridPub >> buildInspectTagsElement [
 
 { #category : #accessing }
 TagGridPub >> buildItemContextElement: cMAptitude [
-	| addTagEditor tagList |
+	| addTagEditor |
 	addTagEditor := BrEditableLabel new
 			aptitude: BrGlamorousEditableLabelAptitude
 					+ (BrGlamorousWithLabelTooltipAptitude new text: 'New Tag');
@@ -223,7 +224,17 @@ TagGridPub >> buildItemContextElement: cMAptitude [
 								aptitude: BrGlamorousEditableLabelAptitude;
 								text: each asString;
 								when: BrEditorAcceptWish
-									do: [ :wish | tags at: (self tags indexOf: each) put: wish text asString ].
+									do: [ :wish | 
+										tags at: (self tags indexOf: each) put: wish text asString.
+										tagList items: self tags sorted.
+										self items updateItemsWithTag: each to: wish text asString.
+
+										(displayedTags includes: each)
+											ifTrue: [ | index |
+												index := displayedTags indexOf: each.
+												displayedTags at: index put: wish text asString.
+												(self childNamed: (index asWords , 'Tag') asSymbol)
+													text: wish text asString ] ].
 						BrHorizontalPane new
 							alignCenter;
 							fitContent;
@@ -235,7 +246,8 @@ TagGridPub >> buildItemContextElement: cMAptitude [
 												detect: [ :i | i first = iUuid ]
 												ifFound: [ :i | i third includes: each ]
 												ifNone: [ false ]);
-										whenCheckedDo: [ self items addTag: each toItemWith: iUuid.
+										whenCheckedDo: [ self haltOnce.
+											self items addTag: each toItemWith: iUuid.
 											self refreshGrid ];
 										whenUncheckedDo: [ self items removeTag: each fromItemWith: iUuid.
 											self refreshGrid ];
@@ -456,6 +468,18 @@ TagGridPub >> formatTitle [
 ]
 
 { #category : #accessing }
+TagGridPub >> gtModel: aView [
+	<gtView>
+	^ aView list
+		title: 'Model';
+		priority: 2;
+		items: [ self items items sorted: [ :a :b | a description < b description ] ];
+		itemText: [ :each | 
+			each description asRopedText ];
+		actionUpdateButton
+]
+
+{ #category : #accessing }
 TagGridPub >> gtString: aView [
 	<gtView>
 	^ aView explicit
@@ -486,6 +510,8 @@ TagGridPub >> hResizerFor: aCell [
 TagGridPub >> initialize [
 	super initialize.
 	self defaultFileLocation.
+"	tagList := BrSimpleList new
+					border: (BlBorder paint: Color lightGray width: 1)."
 	title := 'Untitled'.
 	note :=''.
 	self
@@ -825,8 +851,7 @@ TagGridPub >> title [
 								self viewNote ];
 							aptitude: BrGlamorousButtonWithIconCircularAptitude;
 							margin: (BlInsets left: 5 right: 5).
-						self buildDisplayedTagsElement.
-						self buildInspectTagsButton})
+							self buildInspectTagsButton})
 ]
 
 { #category : #accessing }

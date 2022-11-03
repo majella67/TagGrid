@@ -36,6 +36,18 @@ TagGridModelPub >> getItemWithUuid: aUuid [
 ]
 
 { #category : #accessing }
+TagGridModelPub >> gtItemsFor: aView [
+	<gtView>
+	^ aView list
+		title: 'Model';
+		priority: 2;
+		items: [ self items sorted: [ :a :b | a description < b description ] ];
+		itemText: [ :each | 
+			each description asRopedText ];
+		actionUpdateButton
+]
+
+{ #category : #accessing }
 TagGridModelPub >> initialize [
 
 items := OrderedCollection new.
@@ -65,4 +77,12 @@ TagGridModelPub >> removeTag: aTag fromItemWith: aUuID [
 	| anItem |
 	anItem := self getItemWithUuid: aUuID.
 	anItem ifNotNil: [ anItem third remove: aTag ifAbsent: [  ] ]
+]
+
+{ #category : #accessing }
+TagGridModelPub >> updateItemsWithTag: oldTag to: newTag [
+(	self items select:[:anItem| anItem tags includes: oldTag])
+		do: [ :anItem | 
+			self removeTag: oldTag fromItemWith: anItem uid.
+			self addTag: newTag toItemWith: anItem uid ]
 ]
