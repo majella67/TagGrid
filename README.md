@@ -24,5 +24,7 @@ aTGL :=TagGridListPub new
 ```
 
 #### Usage tips
+- Add a card/item by entering your text in the editor in titlebar
+- Choose a tag and state by clicking the dropboxes to the right of the editor above
 - Add a tag to an item by right clicking on an item.
 - Right click any item to add/edit a tag 
